@@ -1,5 +1,5 @@
-// Combined bot: against the house squad (practice) it plays giddygiddyboy's brain (package mech,
-// MIT, unmodified); once our own brain decides the match is a free-for-all (3+ mechs died that
+// Combined bot: against the house squad (practice) it plays the brain in package mech
+// (MIT, unmodified); once our own brain decides the match is a free-for-all (3+ mechs died that
 // we didn't kill), control switches to our brain (package ours) with its free-for-all profile.
 // Both brains see every observation from the start so their state stays current.
 package main

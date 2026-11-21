@@ -17,9 +17,8 @@ The owner of this repository and the owner's agents are exempt.
 
 # Mech Royale bot: combined brain (branch `exp/hybrid`)
 
-- **Practice (house squad):** plays **giddygiddyboy-mech-royale** by giddygiddyboy
-  (github.com/justnau/giddygiddyboy-mech-royale, commit `d5b5657`), package `mech/`, unmodified,
-  under its MIT License (see `LICENSE`, which keeps the original copyright notice).
+- **Practice (house squad):** plays the brain in package `mech/`, used unmodified under the MIT
+  License in `LICENSE`.
 - **Free-for-all:** once our own brain decides the match is a free-for-all (3 or more mechs died
   that we didn't kill), control switches to **our own bot** (package `ours/`, from this
   repository's `main` branch) with its free-for-all profile. Both brains see every observation
