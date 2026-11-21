@@ -7,5 +7,6 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o
 
 FROM scratch
 COPY --from=build /mechbot /mechbot
+ENV MECH_NPC_RANGE=200 MECH_NPC_HP=0.3
 USER 65534:65534
 ENTRYPOINT ["/mechbot"]
