@@ -1,3 +1,7 @@
+// Combined bot: against the house squad (practice) it plays giddygiddyboy's brain (package mech,
+// MIT, unmodified); once our own brain decides the match is a free-for-all (3+ mechs died that
+// we didn't kill), control switches to our brain (package ours) with its free-for-all profile.
+// Both brains see every observation from the start so their state stays current.
 package main
 
 import (
@@ -7,7 +11,10 @@ import (
 	"os"
 
 	"mechbot/mech"
+	"mechbot/ours"
 )
+
+const botName = "osu-mech"
 
 func main() {
 	lines := make(chan []byte, 256)
@@ -34,7 +41,10 @@ func main() {
 		out.WriteByte('\n')
 		out.Flush()
 	}
-	var brain *mech.Brain
+	var gb *mech.Brain
+	var ob *ours.Brain
+	var last *ours.Action
+	useOurs := false
 	var probe struct {
 		Type string `json:"type"`
 	}
@@ -77,8 +87,12 @@ func main() {
 					fmt.Fprintln(os.Stderr, "map:", err, "- playing on a flat map")
 					w = mech.FlatWorld()
 				}
-				brain = mech.NewBrain(&h, w)
-				send(map[string]string{"type": "ready", "name": "giddygiddyboy"})
+				gb = mech.NewBrain(&h, w)
+				var oh ours.Hello
+				if err := json.Unmarshal(raw, &oh); err == nil {
+					ob = ours.NewBrain(&oh)
+				}
+				send(map[string]string{"type": "ready", "name": botName})
 			case "obs":
 				latest = raw
 			case "end":
@@ -89,7 +103,7 @@ func main() {
 			continue
 		}
 		var o mech.Obs
-		if err := json.Unmarshal(latest, &o); err != nil || brain == nil {
+		if err := json.Unmarshal(latest, &o); err != nil || gb == nil {
 			var t struct {
 				Tick int `json:"tick"`
 			}
@@ -97,6 +111,24 @@ func main() {
 			send(mech.Action{Tick: t.Tick})
 			continue
 		}
-		send(brain.Act(&o))
+		ga := gb.Act(&o)
+		var oa *ours.Action
+		if ob != nil {
+			var oo ours.Obs
+			if json.Unmarshal(latest, &oo) == nil {
+				oa = ours.SafeAct(ob, &oo, last)
+				last = oa
+			}
+			// our detector (3+ mechs died that we didn't kill) never fired in 48 real practice matches
+			if !useOurs && ob.IsFFA() {
+				useOurs = true
+				fmt.Fprintf(os.Stderr, "hybrid: free-for-all detected at t=%.1f, switching to own brain\n", o.T)
+			}
+		}
+		if useOurs && oa != nil {
+			send(oa)
+		} else {
+			send(ga)
+		}
 	}
 }
