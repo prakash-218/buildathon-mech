@@ -1,4 +1,4 @@
 package pilot
 
 // paramsShippedJSON overrides these defaults; keys are the Params field names.
-const paramsShippedJSON = `{"lz_seek":300,"lz_seek_fight":70,"lz_scan_s":3,"pref_laser":9,"pref_lightning":1.5,"pref_mortar":0.5,"loot_weapon_max":400,"loot_swap_max":250,"gear_on":1,"harvest_on":true,"gear_sweep_nolaser":6,"gear_jet_scan":90,"gear_site_r":130,"harvest_site_s":40,"gear_easy_range":55,"gear_cube_fight_r":50,"gear_grab_r":40,"gear_pursuit_s":12,"sf_nofirst":1,"sf_harm":1,"gear_late_s":120}`
+const paramsShippedJSON = `{"lz_seek":300,"lz_seek_fight":70,"lz_scan_s":3,"pref_laser":9,"pref_lightning":1.5,"pref_mortar":0.5,"loot_weapon_max":400,"loot_swap_max":250,"gear_on":1,"harvest_on":true,"gear_sweep_nolaser":6,"gear_jet_scan":90,"gear_site_r":130,"harvest_site_s":40,"gear_easy_range":55,"gear_cube_fight_r":50,"gear_grab_r":40,"gear_pursuit_s":12,"sf_nofirst":1,"sf_harm":1,"gear_late_s":120,"sv_spot":1,"lz_peek":1,"bu_break":1,"bu_dodge":1,"bu_regen_hp":0.6,"rg_on":1,"rg_hp":0.6}`
